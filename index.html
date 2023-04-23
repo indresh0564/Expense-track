@@ -24,6 +24,7 @@
         <button type="submit">Submit</button>
     </form>
     <ul id="listofitem"></ul>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.6/axios.min.js"></script>
     <script>
         function savetolocalstorage(event){
             
@@ -38,8 +39,17 @@
                 description,
                 category
             }
-            localStorage.setItem(obj.description, JSON.stringify(obj));
-            showonscreen(obj)
+            axios.post("https://crudcrud.com/api/5e012380503c41af82c0bd27e5881f7f/apoinment",obj)
+            .then((response)=>{
+                showonscreen(response.data)
+                // console.log(response)
+            })
+            .catch((err)=>{
+                document.body.innerHTML = document.body.innerHTML + "<h4>somthing went wrong</h4>"
+                console.log(err)
+            })
+            // localStorage.setItem(obj.description, JSON.stringify(obj));
+            // showonscreen(obj)
         }
         function showonscreen(obj){
             const parentele = document.getElementById('listofitem');
@@ -70,5 +80,6 @@
             childele.appendChild(editbtn)
         }
     </script>
+    
 </body>
 </html>
