@@ -51,6 +51,16 @@
             // localStorage.setItem(obj.description, JSON.stringify(obj));
             // showonscreen(obj)
         }
+   window.addEventListener("DOMContentLoaded",()=>{
+    console.log(11);
+    axios.get("https://crudcrud.com/api/5e012380503c41af82c0bd27e5881f7f/apoinment")
+    .then((response)=>{
+        for(let i=0; i<response.data.length; i++){
+            showonscreen(response.data[i]);
+        }
+    })
+    .catch((err)=>console.log(err))
+   })
         function showonscreen(obj){
             const parentele = document.getElementById('listofitem');
             const childele = document.createElement('li');
