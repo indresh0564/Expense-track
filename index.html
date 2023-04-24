@@ -71,7 +71,7 @@
             deletebtn.type = "button"
             deletebtn.value = "delete expense"
             deletebtn.onclick = () => {
-              console.log(4)
+            axios.delete(`https://crudcrud.com/api/5e012380503c41af82c0bd27e5881f7f/apoinment/${obj._id}`)
              localStorage.removeItem(obj.expense)
              parentele.removeChild(childele)
             }
