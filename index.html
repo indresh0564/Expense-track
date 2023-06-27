@@ -50,19 +50,16 @@
             
             axios.post("http://localhost:3000/postExpense", obj)
             .then((response)=>{
-                showonscreen(response.data)
-                // console.log(response)
+                showonscreen(response.data.newExpense);
+                console.log(response.data);
             })
             .catch((err)=>{
                 document.body.innerHTML = document.body.innerHTML + "<h4>somthing went wrong</h4>"
                 console.log(err)
             })
-            // localStorage.setItem(obj.description, JSON.stringify(obj));
-            // showonscreen(obj)
         }
 
    window.addEventListener("DOMContentLoaded",()=>{
-    // console.log(11);
     axios.get("http://localhost:3000/getExpense")
     .then((response)=>{
         for(let i=0; i<response.data.length; i++){
@@ -92,10 +89,10 @@
             editbtn.value = "Edit"
 
             editbtn.onclick = () =>{
-                  document.getElementById('expense').value = obj.expense
+                  document.getElementById('expense').value = obj.expenses
                   document.getElementById('description').value = obj.description
                   document.getElementById('category').value = obj.category
-                  axios.delete(`https://crudcrud.com/api/121cc044363840d3b8317d5d03af0c9c/apoinment/${obj._id}`)
+                  axios.delete(`http://localhost:3000/deleteExpense/${obj.id}`)
                   localStorage.removeItem(obj.expense)
                   parentele.removeChild(childele)
             }
