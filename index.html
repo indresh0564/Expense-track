@@ -7,13 +7,21 @@
     <title>Expense Tracker</title>
 </head>
 <body class="container">
+    <header>
+        <h1>Expense_Tracker</h1>
+    </header>
     <form onsubmit="savetolocalstorage(event)">
         <label for="expense" >Expenses</label>
+        <br>
         <input type="number" name="expense" id="expense" placeholder="enter expense">
+        <br>
         <label for="description" >Description</label>
+        <br>
         <input type="text" name="description" placeholder="enter description" id="description">
+        <br>
         <label for="category" >Category</label>
-        
+        <br>
+        <!-- / -->
         <!-- <input type="text" name="category" placeholder="enter category" id="category"> -->
         <select id="category" name="category">
             <option value="shopping">shopping</option>
@@ -21,6 +29,7 @@
             <option value="party">party</option>
             <option value="rent">rent</option>
           </select>
+          <br>
         <button type="submit">Submit</button>
     </form>
     <ul id="listofitem"></ul>
@@ -39,21 +48,20 @@
                 description,
                 category
             }
-            axios.post("https://crudcrud.com/api/5e012380503c41af82c0bd27e5881f7f/apoinment",obj)
+            
+            axios.post("http://localhost:3000/postExpense", obj)
             .then((response)=>{
-                showonscreen(response.data)
-                // console.log(response)
+                showonscreen(response.data.newExpense);
+                console.log(response.data);
             })
             .catch((err)=>{
                 document.body.innerHTML = document.body.innerHTML + "<h4>somthing went wrong</h4>"
                 console.log(err)
             })
-            // localStorage.setItem(obj.description, JSON.stringify(obj));
-            // showonscreen(obj)
         }
+
    window.addEventListener("DOMContentLoaded",()=>{
-    // console.log(11);
-    axios.get("https://crudcrud.com/api/5e012380503c41af82c0bd27e5881f7f/apoinment")
+    axios.get("http://localhost:3000/getExpense")
     .then((response)=>{
         for(let i=0; i<response.data.length; i++){
             showonscreen(response.data[i]);
@@ -61,36 +69,36 @@
     })
     .catch((err)=>console.log(err))
    })
+
         function showonscreen(obj){
             const parentele = document.getElementById('listofitem');
             const childele = document.createElement('li');
-            childele.textContent = obj.expense+'-'+obj.description+'-'+obj.category
+            childele.textContent = obj.expenses+'-'+obj.description+'-'+obj.category
             parentele.appendChild(childele);
             
             const deletebtn = document.createElement('input')
             deletebtn.type = "button"
-            deletebtn.value = "delete expense"
+            deletebtn.value = "Delete"  
             deletebtn.onclick = () => {
-            axios.delete(`https://crudcrud.com/api/5e012380503c41af82c0bd27e5881f7f/apoinment/${obj._id}`)
+            axios.delete(`http://localhost:3000/deleteExpense/${obj.id}`)
              localStorage.removeItem(obj.expense)
              parentele.removeChild(childele)
             }
-            childele.appendChild(deletebtn);
+            childele.appendChild(deletebtn);        
             const editbtn = document.createElement('input')
             editbtn.type = "button"
-            editbtn.value = "edit expense"
+            editbtn.value = "Edit"
 
             editbtn.onclick = () =>{
-                  document.getElementById('expense').value = obj.expense
+                  document.getElementById('expense').value = obj.expenses
                   document.getElementById('description').value = obj.description
                   document.getElementById('category').value = obj.category
-                  axios.delete(`https://crudcrud.com/api/5e012380503c41af82c0bd27e5881f7f/apoinment/${obj._id}`)
+                  axios.delete(`http://localhost:3000/deleteExpense/${obj.id}`)
                   localStorage.removeItem(obj.expense)
                   parentele.removeChild(childele)
             }
-            childele.appendChild(editbtn)
+            childele.appendChild(editbtn);
         }
-    </script>
-    
+    </script> 
 </body>
 </html>
