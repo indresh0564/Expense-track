@@ -25,7 +25,7 @@ user_model.findAll()
     res.status(501).json({err:err});
 });
 }
-
+//
 exports.deleteExpenses= async (req,res,next)=>{
     const Id = req.params.id;
     await user_model.destroy({where:{id:Id}});
